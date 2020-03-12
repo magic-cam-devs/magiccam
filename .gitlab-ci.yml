@@ -1,0 +1,21 @@
+image: jangrewe/gitlab-ci-android
+
+stages:
+- build
+
+before_script:
+- export GRADLE_USER_HOME=$(pwd)/Source/magiccam/.gradle
+- chmod +x ./Source/magiccam/gradlew
+
+cache:
+  key: ${CI_PROJECT_ID}
+  paths:
+  - .gradle/
+
+build:
+  stage: build
+  script:
+  - ./Source/magiccam/gradlew assembleDebug
+  artifacts:
+    paths:
+    - Source/magiccame/app/build/outputs/
