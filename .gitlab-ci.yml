@@ -15,7 +15,8 @@ cache:
 build:
   stage: build
   script:
-  - ./Source/magiccam/gradlew assembleDebug
+  - cd Source/magiccam
+  - gradlew assembleDebug
   artifacts:
     paths:
     - Source/magiccam/app/build/outputs/
