@@ -87,7 +87,7 @@ public class NavigateActivity extends AppCompatActivity implements MainNavigateC
                 loadingPresenter.setPermissionOk(true);
                 loadingPresenter.doLoading(this);
             }
-            else{
+            else {
                 // Notice or something
             }
         }
