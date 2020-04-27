@@ -47,16 +47,16 @@ import nahuy.fithcmus.magiccam.presentation.uis.fragments.gallery.GalleryImageGr
 public class GalleryActivity extends AppCompatActivity implements GalleryFragCallback {
 
     private static final String DEFAULT_GALLERY_NAME = "Albums";
-    private static final String CURRENT_SUBCRIBER_SAVE = "current_subcriber";
+    private static final String CURRENT_SUBSCRIBER_SAVE = "current_subscriber";
     private Toolbar galleryToolBar;
 
     private BroadcastReceiver changeAlbumReceiver;
     private BroadcastReceiver editImageReceiver;
 
     private GalleryImageLoadingPresenter galleryImageLoadingPresenter = new GalleryImageLoadingPresenter();
-    private List<GalleryLoadindSubcriber> subcribers = new ArrayList<>();
+    private List<GalleryLoadindSubcriber> subscribers = new ArrayList<>();
 
-    private int currentSubcriber = 0;
+    private int currentSubscriber = 0;
     private long currentAlbumId = -1;
 
     @BindView(R.id.gallery_layout)
@@ -94,11 +94,11 @@ public class GalleryActivity extends AppCompatActivity implements GalleryFragCal
     @OnClick(R.id.gallery_switch_mode)
     public void switchDisplayMode(){
         detachIntentFragment();
-        if(currentSubcriber == subcribers.size() - 1){
-            currentSubcriber = 0;
+        if(currentSubscriber == subscribers.size() - 1){
+            currentSubscriber = 0;
         }
         else{
-            currentSubcriber += 1;
+            currentSubscriber += 1;
         }
         attachNewIntentFragment();
         galleryImageLoadingPresenter.requestUpdateByAlbumName(this, currentAlbumId);
@@ -141,7 +141,7 @@ public class GalleryActivity extends AppCompatActivity implements GalleryFragCal
 
         // Reload save state
         if(savedInstanceState != null){
-            currentSubcriber = savedInstanceState.getInt(CURRENT_SUBCRIBER_SAVE);
+            currentSubscriber = savedInstanceState.getInt(CURRENT_SUBSCRIBER_SAVE);
         }
 
         initSubcriber();
@@ -177,19 +177,19 @@ public class GalleryActivity extends AppCompatActivity implements GalleryFragCal
     }
 
     private void initSubcriber(){
-        subcribers.add(new GalleryDetailFragment());
-        subcribers.add(new GalleryImageGridFragment());
+        subscribers.add(new GalleryDetailFragment());
+        subscribers.add(new GalleryImageGridFragment());
     }
 
     private void setUpImg(){
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.gallery_intent, subcribers.get(currentSubcriber).getFragment());
+        ft.replace(R.id.gallery_intent, subscribers.get(currentSubscriber).getFragment());
         ft.commit();
     }
 
     private void detachIntentFragment(){
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.detach(subcribers.get(currentSubcriber).getFragment());
+        ft.detach(subscribers.get(currentSubscriber).getFragment());
         ft.commit();
     }
 
@@ -198,21 +198,21 @@ public class GalleryActivity extends AppCompatActivity implements GalleryFragCal
     private void attachNewIntentFragment(){
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         if(!isFirstTimeForSecondMode)
-            ft.attach(subcribers.get(currentSubcriber).getFragment());
+            ft.attach(subscribers.get(currentSubscriber).getFragment());
         else {
-            ft.replace(R.id.gallery_intent, subcribers.get(currentSubcriber).getFragment());
+            ft.replace(R.id.gallery_intent, subscribers.get(currentSubscriber).getFragment());
             isFirstTimeForSecondMode = false;
         }
         ft.commit();
     }
 
     private void subcribesChannels(){
-        galleryImageLoadingPresenter.subcribeAll(subcribers);
+        galleryImageLoadingPresenter.subcribeAll(subscribers);
     }
 
     private void setModeLabel(){
         // Set last display mode icon
-        gallerySwitchMode.setImageDrawable(ContextCompat.getDrawable(this, subcribers.get(currentSubcriber).getFragmentLabel()));
+        gallerySwitchMode.setImageDrawable(ContextCompat.getDrawable(this, subscribers.get(currentSubscriber).getFragmentLabel()));
     }
 
     @Override
@@ -308,7 +308,7 @@ public class GalleryActivity extends AppCompatActivity implements GalleryFragCal
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(CURRENT_SUBCRIBER_SAVE, currentSubcriber);
+        outState.putInt(CURRENT_SUBSCRIBER_SAVE, currentSubscriber);
     }
 
     @Override

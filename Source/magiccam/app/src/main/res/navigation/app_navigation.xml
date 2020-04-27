@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/app_navigation"
+    app:startDestination="@id/homeScreen">
+    <fragment
+        android:id="@+id/homeScreen"
+        android:name="nahuy.fithcmus.magiccam.presentation.uis.activities.refactor.fragment.HomeScreen"
+        tools:layout="@layout/fragment_home_layout"
+        android:label="Home" >
+        <action
+            android:id="@+id/action_homeScreen_to_permissionRequestFragment"
+            app:destination="@id/permissionRequestFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/permissionRequestFragment"
+        android:name="nahuy.fithcmus.magiccam.PermissionRequestFragment"
+        android:label="Permission request"
+        tools:layout="@layout/fragment_permission_request" >
+        <action
+            android:id="@+id/action_permissionRequestFragment_to_homeScreen"
+            app:destination="@id/homeScreen" />
+    </fragment>
+    <dialog
+        android:id="@+id/dialogScreen"
+        android:name="nahuy.fithcmus.magiccam.presentation.uis.fragments.edit.EditPhotoBottomNavFragment"
+        />
+</navigation>

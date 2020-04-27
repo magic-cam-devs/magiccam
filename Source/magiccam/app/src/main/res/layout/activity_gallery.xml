@@ -66,12 +66,8 @@
         <FrameLayout
             android:id="@id/gallery_intent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-        </FrameLayout>
-
-    </LinearLayout>'
-
+            android:layout_height="match_parent"/>
+    </LinearLayout>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@id/gallery_album_list"
         android:layout_gravity="end"

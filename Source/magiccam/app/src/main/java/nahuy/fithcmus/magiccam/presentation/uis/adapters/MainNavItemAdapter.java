@@ -2,6 +2,7 @@ package nahuy.fithcmus.magiccam.presentation.uis.adapters;
 
 import android.content.Context;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +21,7 @@ import nahuy.fithcmus.magiccam.presentation.uis.customs.view_callbacks.MainNavig
 
 /**
  * Created by huy on 6/2/2017.
+ * <br/>Updated by dtrung98 on 23/04/2020
  */
 
 public class MainNavItemAdapter extends RecyclerView.Adapter<MainNavItemAdapter.MainNavItemViewHolder> {
@@ -27,7 +29,7 @@ public class MainNavItemAdapter extends RecyclerView.Adapter<MainNavItemAdapter.
     protected Context context;
     private MainNavigateCallback mnc;
     private ArrayList<MainNavItem> lstOfShader;
-    int selected_position = 0;
+    private int selectedPosition = 0;
 
     public MainNavItemAdapter(Context context, MainNavigateCallback mnc, ArrayList<MainNavItem> lstOfShader) {
         this.context = context;
@@ -48,9 +50,10 @@ public class MainNavItemAdapter extends RecyclerView.Adapter<MainNavItemAdapter.
         }
     }
 
+    @NonNull
     @Override
     public MainNavItemAdapter.MainNavItemViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.main_nav_item, null);
+        View v = LayoutInflater.from(context).inflate(R.layout.main_nav_item, parent, false);
 
         return new MainNavItemAdapter.MainNavItemViewHolder(v);
     }
@@ -65,11 +68,11 @@ public class MainNavItemAdapter extends RecyclerView.Adapter<MainNavItemAdapter.
             public void onClick(View v) {
 
                 // Updating old as well as new positions
-                notifyItemChanged(selected_position);
-                selected_position = position;
-                notifyItemChanged(selected_position);
+                notifyItemChanged(selectedPosition);
+                selectedPosition = position;
+                notifyItemChanged(selectedPosition);
 
-                mnc.processNavRequest(new InvokeActivityCommander(lstOfShader.get(selected_position)));
+                mnc.processNavRequest(new InvokeActivityCommander(lstOfShader.get(selectedPosition)));
 
             }
         });

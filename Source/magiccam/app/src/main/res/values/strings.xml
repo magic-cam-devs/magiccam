@@ -7,4 +7,9 @@
     <string name="back_to_home">Back To Home</string>
     <string name="share">Share</string>
     <string name="store_no_result">No result found</string>
+
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="access_external_storage">Access external storage</string>
+    <string name="grant_permission_order_description">MagicCam requires storage permission to edit your photos. Just accept the dialog that appears in next screen</string>
+    <string name="allow_access">Allow access</string>
 </resources>

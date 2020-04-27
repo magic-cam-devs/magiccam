@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="color_translucent_background" format="color"/>
+    <attr name="color_app_background" format="color"/>
+    <attr name="background_allow_button" format="reference"/>
+    <attr name="color_foreground_request_permission" format="color"/>
+</resources>

@@ -22,4 +22,11 @@
         <item name="android:gravity">center_vertical|center_horizontal</item>
     </style>
 
+    <style name="DefaultTheme" parent="ThemeLight"/>
+    <style name="ThemeLight.WindowBackgroundTransparent">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+    <style name="ThemeDark.WindowBackgroundTransparent">
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 </resources>

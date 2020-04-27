@@ -9,7 +9,6 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.PersistableBundle;
 import androidx.fragment.app.Fragment;
-import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
@@ -147,18 +146,18 @@ public class MainActivity extends AppCompatActivity implements FragMainInteract,
 	}
 
 	private void defaultSetUpFragment(){
-		setUpInvidualFragment(R.id.camera_top_fragment, mainTopFragment);
-		setUpInvidualFragment(R.id.camera_bottom_fragment, mainBottomFragment);
+		setUpIndividualFragment(R.id.camera_top_fragment, mainTopFragment);
+		setUpIndividualFragment(R.id.camera_bottom_fragment, mainBottomFragment);
 	    setToolFragment();
         setFilterFragment();
 	}
 
-    private void setUpInvidualFragment(int id, Fragment fragment){
+    private void setUpIndividualFragment(int id, Fragment fragment){
         FragmentHelper.setUpInvidualFragment(this, id, fragment);
     }
 
 	private void setFilterFragment(){
-        setUpInvidualFragment(R.id.filter_list_fragment, mainChoiceListFragment);
+        setUpIndividualFragment(R.id.filter_list_fragment, mainChoiceListFragment);
 		filterSelected = !filterSelected;
 		// If on -> off, off -> on
         popFilterList();
@@ -175,7 +174,7 @@ public class MainActivity extends AppCompatActivity implements FragMainInteract,
 	}
 
     private void setToolFragment(){
-        setUpInvidualFragment(R.id.tool_fragment, mainToolBoxFragment);
+        setUpIndividualFragment(R.id.tool_fragment, mainToolBoxFragment);
         toolSelected = !toolSelected;
         // If on -> off, off -> on
         popToolList();

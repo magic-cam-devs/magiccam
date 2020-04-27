@@ -64,6 +64,7 @@ public class NavigateActivity extends AppCompatActivity implements MainNavigateC
         setContentView(R.layout.activity_navigate);
         ButterKnife.bind(this);
         setUpRecyclerView();
+
     }
 
     private void setUpRecyclerView(){

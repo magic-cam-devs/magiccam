@@ -22,4 +22,7 @@
     <color name="share_press_color">#555DAC81</color>
     <color name="splashBackground">#ccffff</color>
     <color name="splashTextColor">#FF4081</color>
+    <color name="shark" >#121212</color>
+    <color name="back_pallete_color">#0C3249</color>
+    <color name="splash_background_light">@android:color/white</color>
 </resources>
