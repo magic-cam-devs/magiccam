@@ -53,7 +53,7 @@ def parse_args():
                         help='Directory name to save the samples on training')
     parser.add_argument('--export_dir_base', type=str, default='saved_model',
                         help='The path base for exported model')
-    parser.add_argument('--model_ver', type=str, default='00',
+    parser.add_argument('--model_ver', type=str, default='1',
                         help='The version of export model')
 
     return check_args(parser.parse_args())
