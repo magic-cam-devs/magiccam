@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="0af473de-bce5-4ccf-bd2b-d994ee015e9f" name="hcmus02">
+        <fileTransfer rootFolder="/root/StarGAN-Tensorflow" accessType="SFTP" host="172.29.65.62" port="7070" sshConfigId="aaa5923c-9679-4bf6-875c-60917f3d4e43" sshConfig="root@172.29.65.62:7070 password">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
+          </advancedOptions>
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>
