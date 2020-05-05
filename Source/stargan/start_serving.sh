@@ -1,7 +1,7 @@
 #!/bin/bash
 
 MODEL_PATH="$(pwd)/saved_model"
-MODEL_NAME="star_gan"
+MODEL_NAME="stargan"
 
 # Start Tensorflow Serving container and listening at port 8501
 docker run -it --rm -p 8501:8501 \

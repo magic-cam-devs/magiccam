@@ -117,6 +117,8 @@ checkpoint/
 dataset/
 results/
 saved_model/
+optimized_saved_model/
+graphs/
 
 # Google API token
 client_id.json

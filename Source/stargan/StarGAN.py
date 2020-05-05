@@ -551,3 +551,33 @@ class StarGAN(object):
                                    outputs={
                                        'output_bytes': output_bytes
                                    })
+
+    def export_simplified_graph(self):
+        GRAPH_DIR = 'graphs'
+
+        input_bytes = tf.placeholder(tf.string, shape=(), name="input_bytes")
+        target_domain_label = tf.placeholder(tf.float32, shape=(1, self.c_dim), name='target_domain_label')
+
+        input_tensor = self.preprocess_bitstring_to_float_tensor(input_bytes)
+        output_tensor = self.generator(input_tensor, target_domain_label, reuse=True)  # shape=(1, 128, 128, 3)
+        output_bytes = self.postprocess_float_to_bitstring_tensor(output_tensor)
+        output_bytes = tf.identity(output_bytes, "output_bytes")
+
+        self.saver = tf.train.Saver()
+        tf.global_variables_initializer().run()
+        could_load, _ = self.load(self.checkpoint_dir)
+
+        if not could_load:
+            print(" [!] Load failed...")
+            return
+        else:
+            print(" [*] Load SUCCESS")
+        graph = tf.get_default_graph()
+        output_graph_def = tf.compat.v1.graph_util.convert_variables_to_constants(
+            self.sess, graph.as_graph_def(), [output_bytes.op.name]
+        )
+
+        tf.train.write_graph(output_graph_def,
+                             GRAPH_DIR,
+                             "{}_v{}".format(self.model_name, self.model_ver),
+                             as_text=False)

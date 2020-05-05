@@ -124,6 +124,10 @@ def main():
             gan.export2()
             print(" [*] Export 2 has finished!")
 
+        if args.phase == 'export_graph':
+            gan.export_simplified_graph()
+            print(" [*] Graph has been exported!")
+
 
 if __name__ == '__main__':
     main()
