@@ -53,7 +53,7 @@ def parse_args():
                         help='Directory name to save the samples on training')
     parser.add_argument('--export_dir_base', type=str, default='saved_model',
                         help='The path base for exported model')
-    parser.add_argument('--model_ver', type=str, default='1',
+    parser.add_argument('--model_ver', type=str, default='002',
                         help='The version of export model')
 
     return check_args(parser.parse_args())
@@ -119,6 +119,10 @@ def main():
         if args.phase == 'export':
             gan.export()
             print(" [*] Export finished!")
+
+        if args.phase == 'export2':
+            gan.export2()
+            print(" [*] Export 2 has finished!")
 
 
 if __name__ == '__main__':

@@ -10,7 +10,7 @@ parser = argparse.ArgumentParser(description='Download dataset, labels, model ch
 parser.add_argument('--type', choices=['dataset', 'labels', 'checkpoint'], default='labels',
                     help='Available type: dataset, labels, checkpoint')
 
-parser.add_argument('--name', metavar='N', type=str, nargs='+', choices=['celebA'],
+parser.add_argument('--name', metavar='N', type=str, nargs='+', choices=['celebA'], default='celebA',
                     help='name of dataset to download [celebA]')
 
 
@@ -75,6 +75,8 @@ def download_checkpoint():
 
     with zipfile.ZipFile(save_path) as zf:
         zf.extractall(".")
+
+    os.remove(save_path)
 
 
 def download_dataset(dataset_name: str):

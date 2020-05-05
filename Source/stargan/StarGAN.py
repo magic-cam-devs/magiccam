@@ -498,3 +498,56 @@ class StarGAN(object):
                                    outputs={
                                        'custom_fake_img': output_img
                                    })
+
+    def preprocess_bitstring_to_float_tensor(self,
+                                             input_bytes: tf.Tensor) \
+            -> tf.Tensor:
+
+        input_tensor = tf.image.decode_image(input_bytes, channels=3)
+        input_tensor = tf.image.convert_image_dtype(input_tensor,
+                                                    tf.float32)     # [0, 255] -> [0 , 1]
+        input_tensor = input_tensor * 2.0 - 1.0                     # [0, 1] -> [-1, 1]
+        input_tensor = tf.reshape(input_tensor,
+                                  (self.img_size, self.img_size, 3))
+
+        input_tensor = tf.expand_dims(input_tensor, axis=0)         # shape=(1, 128, 128, 3)
+        return input_tensor
+
+    def postprocess_float_to_bitstring_tensor(self,
+                                              output_tensor: tf.Tensor)\
+            -> tf.Tensor:
+        output_tensor = tf.squeeze(output_tensor, [0])               # remove the first dimension
+        output_tensor = (output_tensor + 1.) * 127.5                 # [-1, 1] -> [0, 255]
+        output_tensor = tf.cast(output_tensor, tf.uint8)
+        output_bytes = tf.image.encode_jpeg(output_tensor)
+        return output_bytes
+
+    def export2(self):
+        export_path = os.path.join(self.export_dir_base, self.model_ver)
+
+        input_bytes = tf.placeholder(tf.string, shape=(), name="input_bytes")
+        target_domain_label = tf.placeholder(tf.float32, shape=(1, self.c_dim), name='target_domain_label')
+
+        input_tensor = self.preprocess_bitstring_to_float_tensor(input_bytes)
+        output_tensor = self.generator(input_tensor, target_domain_label, reuse=True)  # shape=(1, 128, 128, 3)
+        output_bytes = self.postprocess_float_to_bitstring_tensor(output_tensor)
+
+        tf.global_variables_initializer().run()
+        self.saver = tf.train.Saver()
+        could_load, _ = self.load(self.checkpoint_dir)
+
+        if not could_load:
+            print(" [!] Load failed...")
+            return
+        else:
+            print(" [*] Load SUCCESS")
+
+        tf.saved_model.simple_save(self.sess,
+                                   export_path,
+                                   inputs={
+                                       'input_bytes': input_bytes,
+                                       'target_domain_label': target_domain_label
+                                   },
+                                   outputs={
+                                       'output_bytes': output_bytes
+                                   })

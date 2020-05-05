@@ -116,6 +116,7 @@ ipython_config.py
 checkpoint/
 dataset/
 results/
+saved_model/
 
 # Google API token
 client_id.json
