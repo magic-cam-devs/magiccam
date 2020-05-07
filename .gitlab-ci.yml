@@ -25,6 +25,7 @@ build:apk:
       - Source/magiccam/*
 
 test:web:
+  image: python:3.7.7-slim
   stage: test
   before_script:
     - export FLASK_SERVER_DIR=$(pwd)/Source/flask-server
