@@ -36,7 +36,7 @@ test:web:
     - pytest
   only:
     changes:
-      - Source/flask-server/*.py
+      - Source/flask-server/*
 
 deploy:web:
   stage: deploy
