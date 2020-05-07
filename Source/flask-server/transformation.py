@@ -3,6 +3,8 @@ import json
 import os
 import requests
 import numpy as np
+import io
+import PIL.Image
 
 from typing import List
 
@@ -14,14 +16,37 @@ class ImageTransformer:
         self._tf_serving_port = 8501
         self._model_name = ''
         self._model_version = '001'
+        self._image_width = 0
+        self._image_height = 0
 
     def get_label(self,
                   selected_attrs: List[str]) -> List[int]:
         return [0, 0, 0, 0, 0]
 
+    def resize_image_if_need(self, image_bytes: bytes) -> bytes:
+        bytesio = io.BytesIO(image_bytes)
+        image = PIL.Image.open(bytesio)
+        (w, h) = image.size
+
+        if w == self._image_width and h == self._image_height:
+            image.close()
+            return image_bytes
+
+        image = image.resize((self._image_width, self._image_height))
+        bytesio = io.BytesIO()
+
+        saved_format = 'jpeg'
+        if image.mode in ('RGBA', 'P'):
+            saved_format = 'png'
+
+        image.save(bytesio, format=saved_format)
+        image.close()
+        return bytesio.getvalue()
+
     def transform(self,
                   image_bytes: bytes,
                   selected_attrs: List[str]) -> bytes:
+        image_bytes = self.resize_image_if_need(image_bytes)
         b64_encoded_bytes = base64.b64encode(image_bytes)
         b64_encoded_str = b64_encoded_bytes.decode('utf-8')
 
@@ -57,23 +82,23 @@ class ImageTransformer:
 
 class HaircolorGenderAgeTransformer(ImageTransformer):
     attr2bin = {
-        "Black_Hair": 1,
-        "Blond_Hair": 1,
-        "Brown_Hair": 1,
-        "Male": 1,
-        "Female": 0,
-        "Young": 1,
-        "Old": 0
+        "black_hair": 1,
+        "blond_hair": 1,
+        "brown_hair": 1,
+        "male": 1,
+        "female": 0,
+        "young": 1,
+        "old": 0
     }
 
     attr2idx = {
-        "Black_Hair": 0,
-        "Blond_Hair": 1,
-        "Brown_Hair": 2,
-        "Male": 3,
-        "Female": 3,
-        "Young": 4,
-        "Old": 4
+        "black_hair": 0,
+        "blond_hair": 1,
+        "brown_hair": 2,
+        "male": 3,
+        "female": 3,
+        "young": 4,
+        "old": 4
     }
 
     def __init__(self):
@@ -90,6 +115,8 @@ class HaircolorGenderAgeTransformer(ImageTransformer):
         self._tf_serving_host = haircolor_gender_age_model_host
         self._model_name = 'stargan'
         self._model_version = haircolor_gender_age_model_version
+        self._image_width = 128
+        self._image_height = 128
 
     def get_label(self,
                   selected_attrs: List[str]) -> List[int]:
@@ -100,11 +127,11 @@ class HaircolorGenderAgeTransformer(ImageTransformer):
         label = [1, 0, 0, 0, 1]
 
         for attr in selected_attrs:
-            if attr.endswith("Hair"):
+            if attr.endswith("hair"):
                 label[:3] = [0, 0, 0]
 
             if attr not in attr2bin or attr not in attr2idx:
-                raise ValueError('selected_attrs not valid')
+                raise ValueError('attrs: {} not valid'.format(attr))
 
             label[attr2idx[attr]] = attr2bin[attr]
 
