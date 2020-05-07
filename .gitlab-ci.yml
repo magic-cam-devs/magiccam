@@ -31,8 +31,6 @@ test:web:
     - export FLASK_SERVER_DIR=$(pwd)/Source/flask-server
     - cd $FLASK_SERVER_DIR
   script:
-    - apt-get update -qy
-    - apt-get install -y python-dev python-pip
     - pip install -r requirements.txt
     - pytest
   only:
@@ -41,6 +39,9 @@ test:web:
 
 deploy:web:
   stage: deploy
+  before_script:
+    - export FLASK_SERVER_DIR=$(pwd)/Source/flask-server
+    - cd $FLASK_SERVER_DIR
   script:
     - apt-get update -qy
     - apt-get install -y ruby-dev
